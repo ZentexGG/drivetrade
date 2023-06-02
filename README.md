@@ -1,2 +1,2 @@
-# reciperadar
-Open-source project for a website where you can share your recipes!
+# DriveTrade
+Open-source project for a website where people can sell preowned cars and vehicles!
