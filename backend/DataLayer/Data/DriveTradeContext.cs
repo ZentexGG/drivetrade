@@ -14,6 +14,42 @@ public class DriveTradeContext : DbContext
 
     public DriveTradeContext(DbContextOptions<DriveTradeContext> options) : base(options) { }
     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Configure the relationships
+
+        // Vehicle - Category
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.Category)
+            .WithMany()
+            .IsRequired();
+
+        // Vehicle - Brand
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.Brand)
+            .WithMany()
+            .IsRequired();
+
+        // Vehicle - VehiclePhoto
+        modelBuilder.Entity<Vehicle>()
+            .HasMany(v => v.Photos)
+            .WithOne(p => p.Vehicle)
+            .HasForeignKey(p => p.VehicleId)
+            .IsRequired();
+
+        // VehiclePhoto - Vehicle
+        modelBuilder.Entity<VehiclePhoto>()
+            .HasOne(p => p.Vehicle)
+            .WithMany(v => v.Photos)
+            .HasForeignKey(p => p.VehicleId)
+            .IsRequired();
+
+        // Other configurations...
+
+        base.OnModelCreating(modelBuilder);
+    }
+
+    
     
     public DbSet<Brand> Brands { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
