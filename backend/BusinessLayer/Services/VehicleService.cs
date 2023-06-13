@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using DataLayer.Data;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
 
@@ -30,8 +31,19 @@ public class VehicleService : IVehicleService
 
     public void Create(Vehicle vehicle)
     {
-        _context.Add(vehicle);
-        _context.SaveChanges();
+        try
+        {
+            _context.Add(vehicle);
+            _context.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            throw new ApplicationException("Failed to post due to a database error.", e);
+        }
+        catch (Exception e)
+        {
+            throw new ApplicationException("Failed to post!", e);
+        }
     }
 
     public void Update(int id, Vehicle vehicle)
@@ -48,6 +60,7 @@ public class VehicleService : IVehicleService
             property.SetValue(vehicleToUpdate, value);
         }
 
+        _context.Entry(vehicleToUpdate).State = EntityState.Modified;
         _context.SaveChanges();
     }
 
