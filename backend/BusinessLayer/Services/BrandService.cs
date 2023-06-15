@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
-using DataLayer.Data;
+using DataLayer.ContextInterface;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,12 +7,13 @@ namespace BusinessLayer.Services;
 
 public class BrandService : IBrandService
 {
-    private readonly DriveTradeContext _context;
-    public BrandService(DriveTradeContext context)
+    private readonly IDbContext _context;
+
+    public BrandService(IDbContext context)
     {
         _context = context;
     }
-    
+
     public IEnumerable<Brand> GetAll()
     {
         return _context.Brands;
@@ -33,7 +34,7 @@ public class BrandService : IBrandService
     {
         try
         {
-            _context.Add(brand);
+            _context.Brands.Add(brand);
             _context.SaveChanges();
         }
         catch (DbUpdateException e)
@@ -60,7 +61,7 @@ public class BrandService : IBrandService
             property.SetValue(brandToUpdate, value);
         }
 
-        _context.Entry(brandToUpdate).State = EntityState.Modified;
+        _context.UpdateEntityState(brandToUpdate, EntityState.Modified);
         _context.SaveChanges();
     }
 

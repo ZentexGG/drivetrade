@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using DataLayer.ContextInterface;
+using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using DriveType = DataLayer.Entities.DriveType;
 
@@ -9,11 +10,16 @@ namespace DataLayer.Data;
 // dotnet ef migrations add MIGRATION_NAME --startup-project PresentationLayer --project DataLayer --context DriveTradeContext
 // dotnet ef database update --startup-project PresentationLayer --project DataLayer
 
-public class DriveTradeContext : DbContext
+public class DriveTradeContext : DbContext, IDbContext
 {
-
+    public DriveTradeContext() : base() {}
     public DriveTradeContext(DbContextOptions<DriveTradeContext> options) : base(options) { }
     
+    public void UpdateEntityState<TEntity>(TEntity entity, EntityState state) where TEntity : class
+    {
+        Entry(entity).State = state;
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configure the relationships
