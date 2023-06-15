@@ -24,7 +24,7 @@ public class Vehicle
     [Required] 
     public bool IsNegotiable { get; set; }
     [Required]
-    public DateTime PostedTime { get; set; }
+    public DateTime PostedTime { get; set; } = DateTime.Now;
 
     public List<VehiclePhoto> Photos { get; set; }
 }
