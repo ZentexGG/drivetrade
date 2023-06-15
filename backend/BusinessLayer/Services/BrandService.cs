@@ -5,35 +5,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
 
-public class VehicleService : IVehicleService
+public class BrandService : IBrandService
 {
     private readonly DriveTradeContext _context;
-    public VehicleService(DriveTradeContext context)
+    public BrandService(DriveTradeContext context)
     {
         _context = context;
     }
     
-    public IEnumerable<Vehicle> GetAll()
+    public IEnumerable<Brand> GetAll()
     {
-        return _context.Vehicles;
+        return _context.Brands;
     }
 
-    public Vehicle GetById(int id)
+    public Brand GetById(int id)
     {
-        var vehicle = _context.Vehicles.FirstOrDefault(v => v.ID == id);
-        if (vehicle == null)
+        var brand = _context.Brands.FirstOrDefault(b => b.ID == id);
+        if (brand == null)
         {
             throw new KeyNotFoundException("The specified id was not found!");
         }
 
-        return vehicle;
+        return brand;
     }
 
-    public void Create(Vehicle vehicle)
+    public void Create(Brand brand)
     {
         try
         {
-            _context.Add(vehicle);
+            _context.Add(brand);
             _context.SaveChanges();
         }
         catch (DbUpdateException e)
@@ -46,33 +46,33 @@ public class VehicleService : IVehicleService
         }
     }
 
-    public void Update(int id, Vehicle vehicle)
+    public void Update(int id, Brand brand)
     {
-        var vehicleToUpdate = _context.Vehicles.FirstOrDefault(v => v.ID == id);
-        if (vehicleToUpdate == null)
+        var brandToUpdate = _context.Brands.FirstOrDefault(b => b.ID == id);
+        if (brandToUpdate == null)
         {
             throw new KeyNotFoundException("The specified id was not found!");
         }
-        var properties = typeof(Vehicle).GetProperties();
+        var properties = typeof(Brand).GetProperties();
         foreach (var property in properties)
         {
-            var value = property.GetValue(vehicle);
-            property.SetValue(vehicleToUpdate, value);
+            var value = property.GetValue(brand);
+            property.SetValue(brandToUpdate, value);
         }
 
-        _context.Entry(vehicleToUpdate).State = EntityState.Modified;
+        _context.Entry(brandToUpdate).State = EntityState.Modified;
         _context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        var vehicleToDelete = _context.Vehicles.FirstOrDefault(v => v.ID == id);
-        if (vehicleToDelete == null)
+        var brandToDelete = _context.Brands.FirstOrDefault(b => b.ID == id);
+        if (brandToDelete == null)
         {
             throw new KeyNotFoundException("The specified id was not found!");
         }
 
-        _context.Vehicles.Remove(vehicleToDelete);
+        _context.Brands.Remove(brandToDelete);
         _context.SaveChanges();
     }
 }
