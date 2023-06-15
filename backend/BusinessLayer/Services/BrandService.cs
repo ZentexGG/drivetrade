@@ -48,11 +48,31 @@ public class BrandService : IBrandService
 
     public void Update(int id, Brand brand)
     {
-        throw new NotImplementedException();
+        var brandToUpdate = _context.Brands.FirstOrDefault(b => b.ID == id);
+        if (brandToUpdate == null)
+        {
+            throw new KeyNotFoundException("The specified id was not found!");
+        }
+        var properties = typeof(Brand).GetProperties();
+        foreach (var property in properties)
+        {
+            var value = property.GetValue(brand);
+            property.SetValue(brandToUpdate, value);
+        }
+
+        _context.Entry(brandToUpdate).State = EntityState.Modified;
+        _context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        var brandToDelete = _context.Brands.FirstOrDefault(b => b.ID == id);
+        if (brandToDelete == null)
+        {
+            throw new KeyNotFoundException("The specified id was not found!");
+        }
+
+        _context.Brands.Remove(brandToDelete);
+        _context.SaveChanges();
     }
 }
