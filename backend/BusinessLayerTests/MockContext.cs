@@ -16,8 +16,8 @@ public class MockContext : DbContext, IDbContext
     public virtual DbSet<VehiclePhoto> VehiclePhotos { get; set; } = null!;
     public virtual DbSet<Vehicle> Vehicles { get; set; } = null!;
 
-    public void UpdateEntityState<TEntity>(TEntity entity, EntityState state) where TEntity : class
-    { 
+    public virtual void UpdateEntityState<TEntity>(TEntity entity, EntityState state) where TEntity : class
+    {
         Entry(entity).State = state;
     }
 }

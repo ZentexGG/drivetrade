@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using DataLayer.ContextInterface;
 using DataLayer.Data;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,8 @@ namespace BusinessLayer.Services;
 
 public class VehicleService : IVehicleService
 {
-    private readonly DriveTradeContext _context;
-    public VehicleService(DriveTradeContext context)
+    private readonly IDbContext _context;
+    public VehicleService(IDbContext context)
     {
         _context = context;
     }
@@ -33,7 +34,7 @@ public class VehicleService : IVehicleService
     {
         try
         {
-            _context.Add(vehicle);
+            _context.Vehicles.Add(vehicle);
             _context.SaveChanges();
         }
         catch (DbUpdateException e)
@@ -60,7 +61,7 @@ public class VehicleService : IVehicleService
             property.SetValue(vehicleToUpdate, value);
         }
 
-        _context.Entry(vehicleToUpdate).State = EntityState.Modified;
+        _context.Vehicles.Entry(vehicleToUpdate).State = EntityState.Modified;
         _context.SaveChanges();
     }
 
