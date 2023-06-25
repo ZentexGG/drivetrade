@@ -49,6 +49,7 @@ public class CategoryService : ICategoryService
 
     public void Update(int id, Category category)
     {
+        // TODO: Fix error: The property 'Brand.ID' is part of a key and so cannot be modified or marked as modified.
         var categoryToUpdate = _context.Categories.FirstOrDefault(b => b.ID == id);
         if (categoryToUpdate == null)
         {
@@ -57,6 +58,10 @@ public class CategoryService : ICategoryService
         var properties = typeof(Category).GetProperties();
         foreach (var property in properties)
         {
+            if (property.Name == "ID")
+            {
+                continue;
+            }
             var value = property.GetValue(category);
             property.SetValue(categoryToUpdate, value);
         }

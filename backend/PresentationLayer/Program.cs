@@ -1,5 +1,6 @@
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
+using DataLayer.ContextInterface;
 using DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+// builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 builder.Services.AddControllers();
@@ -17,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DriveTradeDb");
 builder.Services.AddDbContext<DriveTradeContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IDbContext>(provider => provider.GetService<DriveTradeContext>());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

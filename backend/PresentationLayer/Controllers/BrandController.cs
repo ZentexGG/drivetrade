@@ -3,31 +3,32 @@ using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers;
-[ApiController]
-[Route("api/vehicle")]
-public class VehicleController : ControllerBase
-{
-    private readonly IVehicleService _service;
 
-    public VehicleController(IVehicleService service)
+[ApiController]
+[Route("api/brand")]
+public class BrandController : ControllerBase
+{
+    private readonly IBrandService _service;
+
+    public BrandController(IBrandService service)
     {
         _service = service;
     }
 
     [HttpGet]
-    public IActionResult GetAllVehicles()
+    public IActionResult GetAllBrands()
     {
         var vehicles = _service.GetAll();
         return Ok(vehicles);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetVehicleById(int id)
+    public IActionResult GetBrandById(int id)
     {
         try
         {
-            var vehicle = _service.GetById(id);
-            return Ok(vehicle);
+            var brand = _service.GetById(id);
+            return Ok(brand);
         }
         catch (KeyNotFoundException e)
         {
@@ -36,12 +37,12 @@ public class VehicleController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateVehicle(Vehicle vehicle)
+    public IActionResult CreateBrand(Brand brand)
     {
         try
         {
-            _service.Create(vehicle);
-            return CreatedAtAction(nameof(GetVehicleById), new { id = vehicle.ID }, vehicle);
+            _service.Create(brand);
+            return CreatedAtAction(nameof(GetBrandById), new { id = brand.ID }, brand);
         }
         catch (Exception e)
         {
@@ -50,26 +51,26 @@ public class VehicleController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateVehicle(int id, Vehicle newVehicle)
+    public IActionResult UpdateBrand(int id, Brand newBrand)
     {
         try
         {
-            _service.Update(id, newVehicle);
-            return Ok($"Successfully updated vehicle with ID {id}");
+            _service.Update(id, newBrand);
+            return Ok(new { message = $"Successfully updated brand with ID {id}" });
         }
         catch (KeyNotFoundException e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(new { message = e.Message });
         }
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteVehicle(int id)
+    public IActionResult DeleteBrand(int id)
     {
         try
         {
             _service.Delete(id);
-            return Ok($"Successfully deleted vehicle with ID {id}");
+            return Ok($"Successfully deleted brand with ID {id}");
         }
         catch (KeyNotFoundException e)
         {

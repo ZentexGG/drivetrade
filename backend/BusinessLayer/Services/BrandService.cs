@@ -57,6 +57,10 @@ public class BrandService : IBrandService
         var properties = typeof(Brand).GetProperties();
         foreach (var property in properties)
         {
+            if (property.Name == "ID")
+            {
+                continue;
+            }
             var value = property.GetValue(brand);
             property.SetValue(brandToUpdate, value);
         }
