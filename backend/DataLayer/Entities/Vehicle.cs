@@ -6,25 +6,31 @@ public class Vehicle
 {
     [Key]
     public int ID { get; set; }
-    [Required]
-    public Category Category { get; set; }
-    [Required]
-    public Brand Brand { get; set; }
-    [Required] 
+    
     public string Name { get; set; }
-    [Required] 
     public int YearManufactured { get; set; }
-    [Required]
     public int Mileage { get; set; }
-    
-    
     public string? Description { get; set; }
-    [Required] 
     public double Price { get; set; }
-    [Required] 
     public bool IsNegotiable { get; set; }
-    [Required]
     public DateTime PostedTime { get; set; } = DateTime.Now;
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
+    
+    public int BrandId { get; set; }
+    public Brand Brand { get; set; }
+    
+    public int ConditionId { get; set; }
+    public Condition Condition { get; set; }
 
-    public List<VehiclePhoto> Photos { get; set; }
+    public int DriveTypeId { get; set; }
+    public DriveType DriveType { get; set; }
+
+    public int FuelTypeId { get; set; }
+    public FuelType FuelType { get; set; }
+
+    public int GearboxTypeId { get; set; }
+    public GearboxType GearboxType { get; set; }
+    
+    public List<VehiclePhoto>? Photos { get; set; }
 }
