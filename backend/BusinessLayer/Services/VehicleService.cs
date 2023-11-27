@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.EntitiesDTOs;
+using BusinessLayer.Interfaces;
 using DataLayer.ContextInterface;
 using DataLayer.Data;
 using DataLayer.Entities;
@@ -30,13 +31,48 @@ public class VehicleService : IVehicleService
         return vehicle;
     }
 
-    public void Create(Vehicle vehicle)
+    public async Task<Vehicle> Create(VehicleDto vehicle)
     {
-        try
-        {
-            _context.Vehicles.Add(vehicle);
-            _context.SaveChanges();
+        try { 
+            var newVehicle = new Vehicle
+            {
+                Name = vehicle.Name,
+                Price = vehicle.Price,
+                Description = vehicle.Description,
+                CategoryId = vehicle.CategoryId,
+                BrandId = vehicle.BrandId,
+                ConditionId = vehicle.ConditionId,
+                DriveTypeId = vehicle.DriveTypeId,
+                FuelTypeId = vehicle.FuelTypeId,
+                GearboxTypeId = vehicle.GearboxTypeId
+            };
+            _context.Vehicles.Add(newVehicle);
+            await _context.SaveChangesAsync();
+            if (!vehicle.Photos.Any())
+            {
+                return newVehicle;
+            }
+            
+            foreach (var vehiclePhoto in vehicle.Photos)
+            {
+                using var stream = new MemoryStream();
+                await vehiclePhoto.CopyToAsync(stream);
+
+                var photo = new VehiclePhoto
+                {
+                    FileName = vehiclePhoto.FileName,
+                    ImageData = stream.ToArray(),
+                    UploadDate = DateTime.UtcNow,
+                    VehicleId = newVehicle.ID
+                };
+                _context.VehiclePhotos.Add(photo);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return newVehicle;
         }
+
         catch (DbUpdateException e)
         {
             throw new ApplicationException("Failed to post due to a database error.", e);
@@ -45,6 +81,7 @@ public class VehicleService : IVehicleService
         {
             throw new ApplicationException("Failed to post!", e);
         }
+        
     }
 
     public void Update(int id, Vehicle vehicle)
