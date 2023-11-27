@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using VehicleDto = BusinessLayer.EntitiesDTOs.VehicleDto;
 
 namespace PresentationLayer.Controllers;
 [ApiController]
@@ -36,12 +37,12 @@ public class VehicleController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateVehicle(Vehicle vehicle)
+    public async Task<IActionResult> CreateVehicle([FromForm] VehicleDto vehicle)
     {
         try
         {
-            _service.Create(vehicle);
-            return CreatedAtAction(nameof(GetVehicleById), new { id = vehicle.ID }, vehicle);
+            var createdVehicle = await _service.Create(vehicle);
+            return CreatedAtAction(nameof(GetVehicleById), new { id = createdVehicle.ID }, vehicle);
         }
         catch (Exception e)
         {
