@@ -4,6 +4,7 @@ using DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(DriveTradeContext))]
-    partial class DriveTradeContextModelSnapshot : ModelSnapshot
+    [Migration("20231127110545_RemovedRequiredKeysFromVehicle")]
+    partial class RemovedRequiredKeysFromVehicle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,26 +138,14 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("BrandId")
+                    b.Property<int>("BrandID")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ConditionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DriveTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FuelTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GearboxTypeId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsNegotiable")
                         .HasColumnType("bit");
@@ -177,17 +168,9 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandID");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ConditionId");
-
-                    b.HasIndex("DriveTypeId");
-
-                    b.HasIndex("FuelTypeId");
-
-                    b.HasIndex("GearboxTypeId");
 
                     b.ToTable("Vehicles");
                 });
@@ -225,51 +208,19 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Entities.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("BrandID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Condition", "Condition")
-                        .WithMany()
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.DriveType", "DriveType")
-                        .WithMany()
-                        .HasForeignKey("DriveTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.FuelType", "FuelType")
-                        .WithMany()
-                        .HasForeignKey("FuelTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.GearboxType", "GearboxType")
-                        .WithMany()
-                        .HasForeignKey("GearboxTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Condition");
-
-                    b.Navigation("DriveType");
-
-                    b.Navigation("FuelType");
-
-                    b.Navigation("GearboxType");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.VehiclePhoto", b =>
