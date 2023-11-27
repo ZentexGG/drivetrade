@@ -49,9 +49,7 @@ public class DriveTradeContext : DbContext, IDbContext
             .WithMany(v => v.Photos)
             .HasForeignKey(p => p.VehicleId)
             .IsRequired();
-
-        // Other configurations...
-
+        
         base.OnModelCreating(modelBuilder);
     }
 

@@ -46,6 +46,7 @@ public class BrandService : IBrandService
             throw new ApplicationException("Failed to post!", e);
         }
     }
+    
 
     public void Update(int id, Brand brand)
     {

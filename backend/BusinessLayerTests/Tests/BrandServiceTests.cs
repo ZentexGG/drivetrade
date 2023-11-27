@@ -31,10 +31,8 @@ public class BrandServiceTests
         var results = _brandService.GetAll().ToArray();
         Assert.That(results, Is.Not.Null);
         Assert.That(results, Has.Length.EqualTo(_brands.Count));
-        for (var i = 0; i < results.Length; i++)
-        {
-            Assert.That(results[i].Name, Is.EqualTo(_brands[i].Name));
-        }
+        Assert.That(results.Select(r => r.Name).SequenceEqual(_brands.Select(b => b.Name)));
+
     }
 
     [Test]
