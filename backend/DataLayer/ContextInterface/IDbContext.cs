@@ -16,5 +16,6 @@ public interface IDbContext
     DbSet<Vehicle> Vehicles { get; set; }
 
     int SaveChanges();
+    Task<int> SaveChangesAsync();
     void UpdateEntityState<TEntity>(TEntity entity, EntityState state) where TEntity : class;
 }
