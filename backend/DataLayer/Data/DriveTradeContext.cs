@@ -12,6 +12,7 @@ namespace DataLayer.Data;
 
 public class DriveTradeContext : DbContext, IDbContext
 {
+    
     public DriveTradeContext() : base() {}
     public DriveTradeContext(DbContextOptions<DriveTradeContext> options) : base(options) { }
     
@@ -19,37 +20,61 @@ public class DriveTradeContext : DbContext, IDbContext
     {
         Entry(entity).State = state;
     }
+    public Task<int> SaveChangesAsync()
+    {
+        return base.SaveChangesAsync();
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configure the relationships
-
-        // Vehicle - Category
+        // Vehicle -> Category
         modelBuilder.Entity<Vehicle>()
             .HasOne(v => v.Category)
             .WithMany()
-            .IsRequired();
+            .HasForeignKey(v => v.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // Vehicle - Brand
+        // Vehicle -> Brand
         modelBuilder.Entity<Vehicle>()
             .HasOne(v => v.Brand)
             .WithMany()
-            .IsRequired();
+            .HasForeignKey(v => v.BrandId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Vehicle -> Condition
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.Condition)
+            .WithMany()
+            .HasForeignKey(v => v.ConditionId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Vehicle -> DriveType
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.DriveType)
+            .WithMany()
+            .HasForeignKey(v => v.DriveTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Vehicle -> FuelType
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.FuelType)
+            .WithMany()
+            .HasForeignKey(v => v.FuelTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Vehicle -> GearboxType
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(v => v.GearboxType)
+            .WithMany()
+            .HasForeignKey(v => v.GearboxTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // Vehicle - VehiclePhoto
+        // Vehicle -> VehiclePhoto
         modelBuilder.Entity<Vehicle>()
             .HasMany(v => v.Photos)
-            .WithOne(p => p.Vehicle)
-            .HasForeignKey(p => p.VehicleId)
-            .IsRequired();
-
-        // VehiclePhoto - Vehicle
-        modelBuilder.Entity<VehiclePhoto>()
-            .HasOne(p => p.Vehicle)
-            .WithMany(v => v.Photos)
-            .HasForeignKey(p => p.VehicleId)
-            .IsRequired();
-        
+            .WithOne(vp => vp.Vehicle)
+            .HasForeignKey(vp => vp.VehicleId)
+            .OnDelete(DeleteBehavior.Cascade);
         base.OnModelCreating(modelBuilder);
     }
 
