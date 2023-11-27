@@ -20,4 +20,9 @@ public class MockContext : DbContext, IDbContext
     {
         Entry(entity).State = state;
     }
+
+    public virtual Task<int> SaveChangesAsync()
+    {
+        return base.SaveChangesAsync();
+    }
 }
