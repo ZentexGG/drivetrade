@@ -17,12 +17,18 @@ public class VehicleService : IVehicleService
     
     public IEnumerable<Vehicle> GetAll()
     {
-        return _context.Vehicles;
+        var vehicles = _context.Vehicles
+            .Include(v => v.Brand)
+            .Include(v => v.DriveType);
+        return vehicles;
     }
 
     public Vehicle GetById(int id)
     {
-        var vehicle = _context.Vehicles.FirstOrDefault(v => v.ID == id);
+        var vehicle = _context.Vehicles
+            .Include(v => v.Brand)
+            .Include(v => v.FuelType)
+            .FirstOrDefault(v => v.ID == id);
         if (vehicle == null)
         {
             throw new KeyNotFoundException("The specified id was not found!");
