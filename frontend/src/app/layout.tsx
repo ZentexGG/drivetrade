@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Exo_2 } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
+const exo2 = Exo_2({
+  subsets: ["latin", "latin-ext"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" data-theme="synthwave">
+      <body className={`${exo2.className} min-h-screen flex-col`}>
+        <main>
+          <Navbar></Navbar>
+          {children}
+          <Footer />
+        </main>
+      </body>
     </html>
   );
 }
