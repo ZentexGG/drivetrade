@@ -8,7 +8,7 @@ export default function SignUpTooltip() {
         </div>
         <div className="collapse-content">
           <p>
-            <a href="/sign-up" className="underline">
+            <a href="/sign-up" className="underline mr-1">
               Sign up
             </a>
             right now and start selling for free!
