@@ -24,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="synthwave">
       <body className={`${exo2.className} min-h-screen flex-col`}>
-        <main>
-          <Navbar></Navbar>
-          {children}
+        <div className="flex flex-col h-screen justify-between">
+          <header>
+            <Navbar></Navbar>
+          </header>
+          <main>{children}</main>
           <Footer />
-        </main>
+        </div>
       </body>
     </html>
   );

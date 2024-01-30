@@ -12,7 +12,7 @@
 
   export default function Navbar() {
     return (
-      <div className="drawer">
+      <div className="drawer z-10">
         <input id="navbar-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}

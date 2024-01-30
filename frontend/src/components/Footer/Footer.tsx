@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div>
-      <footer className="footer p-10 bg-neutral text-neutral-content mt-auto">
+      <footer className="footer p-10 bg-neutral text-neutral-content mt-auto z-0">
         <aside>
           <Image
             src="/logo_colored_noBg.png"
@@ -19,7 +19,7 @@ export default function Footer() {
           </p>
         </aside>
         <nav>
-          <h6 className="footer-title">Social</h6>
+          <h6 className="footer-title z-0">Social</h6>
           <div className="grid grid-flow-col gap-4">
             <a>
               <svg
