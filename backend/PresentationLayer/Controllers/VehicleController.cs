@@ -1,4 +1,7 @@
-﻿using BusinessLayer.Interfaces;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using BusinessLayer.EntitiesDTOs;
+using BusinessLayer.Interfaces;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using VehicleDto = BusinessLayer.EntitiesDTOs.VehicleDto;
@@ -25,10 +28,41 @@ public class VehicleController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetVehicleById(int id)
     {
+        var jsonOptions = new JsonSerializerOptions
+        {
+            ReferenceHandler = ReferenceHandler.Preserve,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
         try
         {
             var vehicle = _service.GetById(id);
-            return Ok(vehicle);
+            var photoDtos = vehicle.Photos?.Select(VehiclePhotoDTO.FromEntity).ToList();
+            var responseDto = new
+            {
+                vehicle.ID,
+                vehicle.Name,
+                vehicle.YearManufactured,
+                vehicle.Mileage,
+                vehicle.Description,
+                vehicle.Price,
+                vehicle.IsNegotiable,
+                vehicle.PostedTime,
+                vehicle.CategoryId,
+                vehicle.Category,
+                vehicle.BrandId,
+                vehicle.Brand,
+                vehicle.ConditionId,
+                vehicle.Condition,
+                vehicle.DriveTypeId,
+                vehicle.DriveType,
+                vehicle.FuelTypeId,
+                vehicle.FuelType,
+                vehicle.GearboxTypeId,
+                vehicle.GearboxType,
+                Photos = photoDtos
+            };
+            var res = JsonSerializer.Serialize(responseDto, jsonOptions);
+            return Ok(res);
         }
         catch (KeyNotFoundException e)
         {

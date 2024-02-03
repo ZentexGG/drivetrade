@@ -37,12 +37,12 @@ public class VehicleService : IVehicleService
             .Include(v => v.FuelType)
             .Include(v => v.GearboxType)
             .Include(v => v.Photos)
+            .AsNoTracking()
             .FirstOrDefault(v => v.ID == id);
         if (vehicle == null)
         {
             throw new KeyNotFoundException("The specified id was not found!");
         }
-
         return vehicle;
     }
 
