@@ -19,7 +19,11 @@ public class VehicleService : IVehicleService
     {
         var vehicles = _context.Vehicles
             .Include(v => v.Brand)
-            .Include(v => v.DriveType);
+            .Include(v => v.DriveType)
+            .Include(v => v.Category)
+            .Include(v => v.Condition)
+            .Include(v => v.FuelType)
+            .Include(v => v.GearboxType);
         return vehicles;
     }
 
@@ -27,7 +31,13 @@ public class VehicleService : IVehicleService
     {
         var vehicle = _context.Vehicles
             .Include(v => v.Brand)
+            .Include(v => v.DriveType)
+            .Include(v => v.Category)
+            .Include(v => v.Condition)
             .Include(v => v.FuelType)
+            .Include(v => v.GearboxType)
+            .Include(v => v.Photos)
+            .AsNoTracking()
             .FirstOrDefault(v => v.ID == id);
         if (vehicle == null)
         {

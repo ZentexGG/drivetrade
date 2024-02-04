@@ -13,6 +13,7 @@ public class Vehicle
     public string? Description { get; set; }
     public double Price { get; set; }
     public bool IsNegotiable { get; set; }
+    public bool IsAvailable { get; set; }
     public DateTime PostedTime { get; set; } = DateTime.Now;
     public int CategoryId { get; set; }
     public Category Category { get; set; }

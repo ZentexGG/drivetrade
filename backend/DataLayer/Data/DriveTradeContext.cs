@@ -10,10 +10,11 @@ namespace DataLayer.Data;
 // dotnet ef migrations add MIGRATION_NAME --startup-project PresentationLayer --project DataLayer --context DriveTradeContext
 // dotnet ef database update --startup-project PresentationLayer --project DataLayer
 
-public class DriveTradeContext : DbContext, IDbContext
+public sealed class DriveTradeContext : DbContext, IDbContext
 {
     
     public DriveTradeContext() : base() {}
+
     public DriveTradeContext(DbContextOptions<DriveTradeContext> options) : base(options) { }
     
     public void UpdateEntityState<TEntity>(TEntity entity, EntityState state) where TEntity : class

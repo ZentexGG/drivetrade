@@ -1,4 +1,4 @@
-export interface BrandDTO {
+interface CarBrand {
     id: number;
     name: string;
 }
