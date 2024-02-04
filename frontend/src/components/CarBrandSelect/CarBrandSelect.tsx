@@ -8,12 +8,13 @@ export default async function CarBrandSelect() {
     <select
       className="select select-secondary w-full max-w-xs"
       defaultValue="none"
+      name="brand"
     >
       <option disabled value="none">
         Pick a brand
       </option>
       {brands?.map((brand: CarBrand) => (
-        <option key={brand.id}>{brand.name}</option>
+        <option key={brand.id} value={brand.id}>{brand.name}</option>
       ))}
     </select>
   );
