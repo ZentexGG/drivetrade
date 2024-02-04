@@ -156,6 +156,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("GearboxTypeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsNegotiable")
                         .HasColumnType("bit");
 
