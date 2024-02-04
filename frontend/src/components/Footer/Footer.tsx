@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div>
-      <footer className="footer p-10 bg-neutral text-neutral-content mt-auto z-0">
+      <footer className="footer p-10 bg-base-300 text-neutral-content mt-auto z-0">
         <aside>
           <Image
             src="/logo_colored_noBg.png"
