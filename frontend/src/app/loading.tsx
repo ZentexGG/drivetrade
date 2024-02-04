@@ -1,5 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function loading() {
-  return <span className="loading loading-dots loading-lg"></span>;
+  return (
+    <center>
+      <span className="loading loading-dots loading-lg" />
+    </center>
+  );
 }
