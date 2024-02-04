@@ -28,11 +28,6 @@ public class VehicleController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetVehicleById(int id)
     {
-        var jsonOptions = new JsonSerializerOptions
-        {
-            ReferenceHandler = ReferenceHandler.Preserve,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
-        };
         try
         {
             var vehicle = _service.GetById(id);
@@ -41,27 +36,22 @@ public class VehicleController : ControllerBase
             {
                 vehicle.ID,
                 vehicle.Name,
+                vehicle.IsNegotiable,
+                vehicle.IsAvailable,
                 vehicle.YearManufactured,
                 vehicle.Mileage,
                 vehicle.Description,
                 vehicle.Price,
-                vehicle.IsNegotiable,
                 vehicle.PostedTime,
-                vehicle.CategoryId,
                 vehicle.Category,
-                vehicle.BrandId,
                 vehicle.Brand,
-                vehicle.ConditionId,
                 vehicle.Condition,
-                vehicle.DriveTypeId,
                 vehicle.DriveType,
-                vehicle.FuelTypeId,
                 vehicle.FuelType,
-                vehicle.GearboxTypeId,
                 vehicle.GearboxType,
                 Photos = photoDtos
             };
-            var res = JsonSerializer.Serialize(responseDto, jsonOptions);
+            var res = JsonSerializer.Serialize(responseDto);
             return Ok(res);
         }
         catch (KeyNotFoundException e)

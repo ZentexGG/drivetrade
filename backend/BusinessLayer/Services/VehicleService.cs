@@ -43,6 +43,7 @@ public class VehicleService : IVehicleService
         {
             throw new KeyNotFoundException("The specified id was not found!");
         }
+
         return vehicle;
     }
 
