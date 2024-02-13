@@ -1,13 +1,24 @@
 import "@/app/FadeInAnimation.scss";
 import CarBrandSelect from "../CarBrandSelect/CarBrandSelect";
+import CarMileageInput from "../CarMileageInput/CarMileageInput";
+import { useState } from "react";
 
 export default function CarSearch() {
+  const [errMsg, setErrMsg] = useState("");
   async function StartSearch(formData: FormData) {
     "use server";
     const rawFormData = {
       keywords: formData.get("keywords"),
       brand: formData.get("brand"),
+      mileageStart: parseFloat(formData.get("mileageStart") as string),
+      mileageEnd: parseFloat(formData.get("mileageEnd") as string)
     };
+
+    if (rawFormData.mileageStart > rawFormData.mileageEnd) {
+      console.log("Starting mileage can not be bigger than end mileage");
+      return;
+    }
+
     console.log(rawFormData);
   }
 
@@ -30,14 +41,18 @@ export default function CarSearch() {
               <input
                 type="text"
                 placeholder="Keywords"
-                className="input input-bordered"
+                className="input input-bordered input-secondary"
                 name="keywords"
               />
             </div>
             <div className="form-control">
               <CarBrandSelect />
             </div>
+            <div className="flex space-x-4">
+              <CarMileageInput />
+            </div>
             <div className="form-control mt-6">
+              <h1>{errMsg}</h1>
               <button type="submit" className="btn btn-primary">
                 Search
               </button>
