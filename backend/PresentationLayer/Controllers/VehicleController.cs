@@ -32,25 +32,16 @@ public class VehicleController : ControllerBase
         {
             var vehicle = _service.GetById(id);
             var photoDtos = vehicle.Photos?.Select(VehiclePhotoDTO.FromEntity).ToList();
-            var responseDto = new
+
+            var responseDto = new Dictionary<string, object?>();
+            var vehicleProps = vehicle.GetType().GetProperties();
+            
+            foreach (var property in vehicleProps)
             {
-                vehicle.ID,
-                vehicle.Name,
-                vehicle.IsNegotiable,
-                vehicle.IsAvailable,
-                vehicle.YearManufactured,
-                vehicle.Mileage,
-                vehicle.Description,
-                vehicle.Price,
-                vehicle.PostedTime,
-                vehicle.Category,
-                vehicle.Brand,
-                vehicle.Condition,
-                vehicle.DriveType,
-                vehicle.FuelType,
-                vehicle.GearboxType,
-                Photos = photoDtos
-            };
+                responseDto[property.Name] = property.GetValue(vehicle);
+            }
+
+            responseDto["Photos"] = photoDtos;
             var res = JsonSerializer.Serialize(responseDto);
             return Ok(res);
         }
