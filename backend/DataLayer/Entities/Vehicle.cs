@@ -32,6 +32,4 @@ public class Vehicle
 
     public int GearboxTypeId { get; set; }
     public GearboxType GearboxType { get; set; }
-    
-    public List<VehiclePhoto>? Photos { get; set; }
 }

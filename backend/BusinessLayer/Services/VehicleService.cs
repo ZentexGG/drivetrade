@@ -36,7 +36,6 @@ public class VehicleService : IVehicleService
             .Include(v => v.Condition)
             .Include(v => v.FuelType)
             .Include(v => v.GearboxType)
-            .Include(v => v.Photos)
             .AsNoTracking()
             .FirstOrDefault(v => v.ID == id);
         if (vehicle == null)
@@ -63,27 +62,6 @@ public class VehicleService : IVehicleService
                 GearboxTypeId = vehicle.GearboxTypeId
             };
             _context.Vehicles.Add(newVehicle);
-            await _context.SaveChangesAsync();
-            if (!vehicle.Photos.Any())
-            {
-                return newVehicle;
-            }
-            
-            foreach (var vehiclePhoto in vehicle.Photos)
-            {
-                using var stream = new MemoryStream();
-                await vehiclePhoto.CopyToAsync(stream);
-
-                var photo = new VehiclePhoto
-                {
-                    FileName = vehiclePhoto.FileName,
-                    ImageData = stream.ToArray(),
-                    UploadDate = DateTime.UtcNow,
-                    VehicleId = newVehicle.ID
-                };
-                _context.VehiclePhotos.Add(photo);
-            }
-
             await _context.SaveChangesAsync();
 
             return newVehicle;

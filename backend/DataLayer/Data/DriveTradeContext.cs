@@ -70,12 +70,14 @@ public sealed class DriveTradeContext : DbContext, IDbContext
             .HasForeignKey(v => v.GearboxTypeId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Vehicle -> VehiclePhoto
-        modelBuilder.Entity<Vehicle>()
-            .HasMany(v => v.Photos)
-            .WithOne(vp => vp.Vehicle)
-            .HasForeignKey(vp => vp.VehicleId)
-            .OnDelete(DeleteBehavior.Cascade);
+        // VehiclePhoto -> Vehicle
+
+        modelBuilder.Entity<VehiclePhoto>()
+            .HasOne(v => v.Vehicle)
+            .WithMany()
+            .HasForeignKey(v => v.VehicleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         base.OnModelCreating(modelBuilder);
     }
 

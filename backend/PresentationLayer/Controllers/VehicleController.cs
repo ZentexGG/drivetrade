@@ -31,7 +31,6 @@ public class VehicleController : ControllerBase
         try
         {
             var vehicle = _service.GetById(id);
-            var photoDtos = vehicle.Photos?.Select(VehiclePhotoDTO.FromEntity).ToList();
 
             var responseDto = new Dictionary<string, object?>();
             var vehicleProps = vehicle.GetType().GetProperties();
@@ -41,7 +40,6 @@ public class VehicleController : ControllerBase
                 responseDto[property.Name] = property.GetValue(vehicle);
             }
 
-            responseDto["Photos"] = photoDtos;
             var res = JsonSerializer.Serialize(responseDto);
             return Ok(res);
         }

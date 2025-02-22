@@ -3,6 +3,7 @@ using System;
 using DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(DriveTradeContext))]
-    partial class DriveTradeContextModelSnapshot : ModelSnapshot
+    [Migration("20250222230820_UpdatePhotosTab")]
+    partial class UpdatePhotosTab
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,7 +279,7 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.Entities.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Vehicle");
