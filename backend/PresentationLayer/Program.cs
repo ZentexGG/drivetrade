@@ -17,10 +17,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DriveTradeDb");
-var frontendUrl = builder.Configuration.GetConnectionString("FrontendURL");
+var frontendUrl = builder.Configuration.GetValue<string>("FrontendURL");
 
-
-builder.Services.AddDbContext<DriveTradeContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<DriveTradeContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IDbContext>(provider => provider.GetService<DriveTradeContext>());
 
 builder.Services.AddCors(options =>
