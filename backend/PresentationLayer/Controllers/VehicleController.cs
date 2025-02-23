@@ -9,14 +9,9 @@ using VehicleDto = BusinessLayer.EntitiesDTOs.VehicleDto;
 namespace PresentationLayer.Controllers;
 [ApiController]
 [Route("api/vehicle")]
-public class VehicleController : ControllerBase
+public class VehicleController(IVehicleService service) : ControllerBase
 {
-    private readonly IVehicleService _service;
-
-    public VehicleController(IVehicleService service)
-    {
-        _service = service;
-    }
+    private readonly IVehicleService _service = service;
 
     [HttpGet]
     public IActionResult GetAllVehicles()

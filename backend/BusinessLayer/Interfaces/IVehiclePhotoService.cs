@@ -1,12 +1,14 @@
-﻿using DataLayer.Entities;
+﻿using BusinessLayer.EntitiesDTOs;
+using DataLayer.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Interfaces;
 
 public interface IVehiclePhotoService
 {
-    IEnumerable<VehiclePhoto> GetAll();
-    VehiclePhoto GetById(int id);
-    void Create(VehiclePhoto vehiclePhoto);
-    void Update(int id, VehiclePhoto vehiclePhoto);
+    IEnumerable<VehiclePhotoDTO> GetAll();
+    VehiclePhotoDTO GetById(int id);
+    Task<VehiclePhotoDTO> Create(VehiclePhotoUploadDto vehiclePhotoUploadDto);
+    void Update(int id, VehiclePhotoDTO vehiclePhoto);
     void Delete(int id);
 }

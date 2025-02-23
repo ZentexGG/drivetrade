@@ -19,4 +19,15 @@ public class VehiclePhotoDTO
             VehicleId = photo.VehicleId
         };
     }
+
+    public static VehiclePhoto ToEntity(VehiclePhotoDTO photo)
+    {
+        return new VehiclePhoto
+        {
+            ID = photo.ID,
+            ImageUrl = photo.ImageUrl,
+            UploadDate = photo.UploadDate,
+            VehicleId = photo.VehicleId
+        };
+    }
 }

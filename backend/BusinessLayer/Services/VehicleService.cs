@@ -7,14 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
 
-public class VehicleService : IVehicleService
+public class VehicleService(IDbContext context) : IVehicleService
 {
-    private readonly IDbContext _context;
-    public VehicleService(IDbContext context)
-    {
-        _context = context;
-    }
-    
+    private readonly IDbContext _context = context;
+
     public IEnumerable<Vehicle> GetAll()
     {
         var vehicles = _context.Vehicles

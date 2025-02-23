@@ -3,12 +3,14 @@ using BusinessLayer.Services;
 using DataLayer.ContextInterface;
 using DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
+using PresentationLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IVehiclePhotoService, VehiclePhotoService>();
 // builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
