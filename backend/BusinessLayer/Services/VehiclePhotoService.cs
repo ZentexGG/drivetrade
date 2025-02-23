@@ -30,7 +30,8 @@ public class VehiclePhotoService(IDbContext context) : IVehiclePhotoService
         content.Add(new StringContent("DriveTrade"), "description");
 
         // Set the authorization header with your client ID
-        client.DefaultRequestHeaders.Add("Authorization", $"Client-ID 532e2e89e63039a");
+        // TODO: ADD CLIENT ID
+        client.DefaultRequestHeaders.Add("Authorization", $"Client-ID ");
 
         // Send POST request to ImgUr
         var response = await client.PostAsync("https://api.imgur.com/3/image", content);
